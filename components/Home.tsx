@@ -4,7 +4,7 @@ export default function Home() {
   return (
     <section id="home" className="relative h-screen flex items-center justify-center">
       <Image
-        src="/hero-image.jpg"
+        src="/cakes/hero-image.jpeg"
         alt="Delicious cakes"
         layout="fill"
         objectFit="cover"
