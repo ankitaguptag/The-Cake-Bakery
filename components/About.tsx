@@ -8,7 +8,7 @@ export default function About() {
         <div className="flex flex-col md:flex-row items-center gap-8">
           <div className="md:w-1/2">
             <Image
-              src="/bakery-image.jpg"
+              src="/cakes/bakery-image.jpeg"
               alt="Our bakery"
               width={500}
               height={300}
