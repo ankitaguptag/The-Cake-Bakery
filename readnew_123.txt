@@ -1,0 +1,81 @@
+here is a static code now i want to make  next.js use typescript
+step by step than next to setup to dynamic make every this come to  backend with mongodb
+
+write a promt HEADER,HOME,NEWS,ABOUT,FAVORITES,FOOTER,Visit
+
+
+```markdown
+# Prompt for AI Development of a Cake-Bakery Shop in Next.js
+
+## Objective:
+Develop a single-page application for a Cake-Bakery Shop using Next.js, featuring clearly defined sections: HEADER, HOME, NEWS, ABOUT, FAVORITES, FOOTER, and LOCATION.
+
+## Requirements:
+
+1. **Framework**: Utilize Next.js as the primary framework for building the application.
+
+2. **Page Structure**: 
+   - The application should be a single-page layout with smooth scrolling between sections.
+   - Each section must be visually distinct and easily navigable.
+
+3. **Sections Detail**:
+   - **HEADER**: 
+     - Include a logo.
+     - Navigation links to each section.
+     - Ensure the header is sticky to the top of the viewport.
+   
+   - **HOME**: 
+     - Showcase a hero image of cakes.
+     - Brief introduction of the bakery.
+     - Call-to-action button (e.g., "Order Now").
+
+   - **NEWS**: 
+     - Section for updates about new cake flavors, promotions, and events.
+     - Each news item should have a title, date, and a brief description.
+
+   - **ABOUT**: 
+     - Provide a history of the bakery.
+     - Include founder details and baking philosophy.
+     - Optional: Add images of the bakery and team members.
+
+   - **FAVORITES**: 
+     - Display popular cake selections with images, names, and descriptions.
+     - Option to "Favorite" or "Add to Cart" (mock-up functionality).
+
+   - **FOOTER**: 
+     - Include social media links.
+     - Contact information (email, phone number).
+     - Quick links to sections.
+
+   - **LOCATION**: 
+     - Embed a Google Map showing the bakery location.
+     - Provide the address and operating hours.
+
+4. **Styling**:
+   - Use modern CSS (or CSS-in-JS) for styling.
+   - Ensure responsive design for mobile and desktop views.
+   - Maintain a consistent color scheme and typography that reflects the bakery’s brand.
+
+5. **Data Handling**:
+   - Utilize Next.js API routes for fetching and managing bakery data (news, favorites).
+   - Plan for scalability to add more features in the future.
+
+6. **Deployment**:
+   - Instructions for deploying the Next.js application on platforms like Vercel or Netlify.
+
+## Output:
+The final output should be a Next.js application codebase with clear comments, organized folder structure, and a README.md file containing setup instructions and deployment guidelines.
+```
+
+
+
+This README provides instructions for setting up, running, and deploying the Cake-Bakery Shop application. It also includes information about the project structure and how to customize the content.
+
+To complete the setup, make sure to add the necessary images to the `public/` directory, including:
+
+1. `logo.png` for the bakery logo
+2. `hero-image.jpg` for the home section background
+3. `bakery-image.jpg` for the about section
+4. Cake images for the favorites section (e.g., `cakes/chocolate-delight.jpg`, `cakes/strawberry-bliss.jpg`, `cakes/lemon-zest.jpg`)
+
+With these components and instructions in place, you now have a fully functional Next.js application for a Cake-Bakery Shop that meets all the requirements specified in the prompt. The application is responsive, uses modern styling with Tailwind CSS, and is ready for deployment on platforms like Vercel or Netlify.

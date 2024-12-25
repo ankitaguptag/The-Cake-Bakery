@@ -1,0 +1,64 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary: #FF9494;
+  --secondary: #FFD1D1;
+  --accent: #FFF5E4;
+  --text: #4A4A4A;
+}
+
+body {
+  color: var(--text);
+  background-color: var(--accent);
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-[#FF9494];
+    @apply text-white;
+    @apply font-bold;
+    @apply py-2;
+    @apply px-4;
+    @apply rounded-full;
+    @apply transition;
+    @apply duration-300;
+  }
+  
+  .btn-primary:hover {
+    @apply bg-[#FFD1D1];
+    @apply text-[#4A4A4A];
+  }
+
+  .section-title {
+    @apply text-4xl;
+    @apply font-bold;
+    @apply mb-8;
+    @apply text-center;
+    @apply text-[#FF9494];
+  }
+
+  .card {
+    @apply bg-white;
+    @apply rounded-lg;
+    @apply shadow-md;
+    @apply overflow-hidden;
+    @apply transition-transform;
+    @apply duration-300;
+  }
+
+  .card:hover {
+    @apply scale-105;
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 1s ease-in-out;
+}
+
