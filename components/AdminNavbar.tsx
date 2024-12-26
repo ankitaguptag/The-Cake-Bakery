@@ -13,6 +13,7 @@ const navItems = [
   { name: 'News', path: '/admin/news' },
   { name: 'About', path: '/admin/about' },
   { name: 'Favorites', path: '/admin/favorites' },
+  { name: 'Cakes', path: '/admin/cakes' },
   { name: 'Footer', path: '/admin/footer' },
 ]
 
