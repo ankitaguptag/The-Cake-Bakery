@@ -22,7 +22,7 @@ export default function LoginForm() {
       password,
       redirect: false,
     })
-
+    console.log('credentials', result);
     if (result?.error) {
       setError('Invalid username or password')
     } else {
