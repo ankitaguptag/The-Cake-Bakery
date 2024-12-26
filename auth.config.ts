@@ -1,47 +1,47 @@
-import type { NextAuthOptions } from 'next-auth';
-import CredentialsProvider from 'next-auth/providers/credentials';
+import Credentials from 'next-auth/providers/credentials';
+import type { NextAuthConfig } from 'next-auth';
 
-export const authConfig: NextAuthOptions = {
-  pages: {
-    signIn: '/login', // Redirect unauthenticated users here
-  },
-  callbacks: {
-    async redirect({ url, baseUrl }) {
-        console.log('Redirect callback triggered. URL:', url, 'Base URL:', baseUrl);
-        // Redirect to /admin after successful login or fallback to the base URL
-        return url.startsWith(baseUrl) ? url : '/admin';
-      },
-    async session({ session, token }) {
-      // Add token to the session for access in the UI
-      console.log('Session callback triggered. Session:', session, 'Token:', token);
-      session.user = token.user;
-      console.log('Provided credentials:', session);
-      return session;
-    },
-    async jwt({ token, user }) {
-      if (user) token.user = user;
-      return token;
-    },
-  },
+export const authConfig: NextAuthConfig = {
   providers: [
-    CredentialsProvider({
+    Credentials({
       name: 'Credentials',
       credentials: {
-        username: { label: 'Username', type: 'text' },
-        password: { label: 'Password', type: 'password' },
+        username: { label: "Username", type: "text" },
+        password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        console.log('Provided credentials:', credentials);
-        console.log('Expected username:', process.env.ADMIN_USERNAME);
-        console.log('Expected password:', process.env.ADMIN_PASSWORD);
         if (
           credentials?.username === process.env.ADMIN_USERNAME &&
           credentials?.password === process.env.ADMIN_PASSWORD
         ) {
-          return { id: '1', name: 'Admin' }; // Valid user object
+          // Return a user object when credentials match
+          return { id: '1', name: 'Admin' };
         }
-        throw new Error('Invalid credentials'); // Trigger error
+        return null; // Invalid credentials, return null
       },
     }),
   ],
+  pages: {
+    signIn: '/login', // Custom sign-in page
+  },
+  callbacks: {
+    async session({ session, token }) {
+      if (token) {
+        session.user.id = token.id;
+        session.user.name = token.name;
+      }
+      return session;
+    },
+    async jwt({ token, user }) {
+      if (user) {
+        token.id = user.id;
+        token.name = user.name;
+      }
+      return token;
+    },
+  },
+  secret: process.env.NEXTAUTH_SECRET,
+  session: {
+    strategy: 'jwt', // Ensure you're using JWT sessions for stateless authentication
+  },
 };

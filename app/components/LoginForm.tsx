@@ -14,21 +14,24 @@ export default function LoginForm() {
   const router = useRouter()
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setError(null)
-
+    e.preventDefault();
+    setError(null);
+  
     const result = await signIn('credentials', {
       username,
       password,
       redirect: false,
-    })
-    console.log('credentials', result);
+    });
+  
+    console.log('SignIn Result:', result); // Log the response
+  
     if (result?.error) {
-      setError('Invalid username or password')
+      setError('Invalid username or password');
     } else {
-      router.push('/admin')
+      router.push('/admin');
     }
-  }
+  };
+  
 
   return (
     <form onSubmit={handleSubmit} className="mt-8 space-y-6">
