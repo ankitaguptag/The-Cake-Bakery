@@ -1,4 +1,5 @@
-'use client'
+"use client"; // Mark this as a Client Component
+
 
 import { useState } from 'react'
 import Link from 'next/link'
@@ -14,7 +15,7 @@ export default function Header() {
           {/* <RiCake3Fill className="mr-1 text-4xl " /> Cake icon */}
             {/* <Image src="/logo.png" alt="Cake-Bakery Shop Logo" width={50} height={50} className="rounded-full" /> */}
             {/* <span className="ml-3 text-2xl font-semibold">The Cake Shop</span> */}
-            <a href="#" className="flex items-center text-3xl font-bold">
+            <a href="/" className="flex items-center text-3xl font-bold">
                         <RiCake3Fill className="mr-2 text-4xl" /> {/* Cake icon */}
                         The Cake Shop
                     </a>
