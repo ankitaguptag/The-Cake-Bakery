@@ -1,28 +1,25 @@
-import { NextResponse } from 'next/server'
+import { NextResponse } from 'next/server';
+import clientPromise from '@/lib/mongodb';
+import { News } from '@/models/news';
 
 export async function GET() {
-  // In a real application, this data would come from a database
-  const news = [
-    {
-      id: 1,
-      title: "New Summer Flavors",
-      date: "2023-06-01",
-      description: "Try our new refreshing lemon and strawberry cakes, perfect for summer!"
-    },
-    {
-      id: 2,
-      title: "Cake Decorating Workshop",
-      date: "2023-06-15",
-      description: "Join us for a hands-on cake decorating workshop this weekend."
-    },
-    {
-      id: 3,
-      title: "Father's Day Special",
-      date: "2023-06-10",
-      description: "Order our special Father's Day cake and get a 10% discount!"
-    }
-  ]
+  try {
+    await clientPromise;
+    const news = await News.find({}).sort({ date: -1 });
+    return NextResponse.json(news);
+  } catch (error) {
+    return NextResponse.json({ error: 'Failed to fetch news' }, { status: 500 });
+  }
+}
 
-  return NextResponse.json(news)
+export async function POST(request: Request) {
+  try {
+    await clientPromise;
+    const data = await request.json();
+    const newsItem = await News.create(data);
+    return NextResponse.json(newsItem);
+  } catch (error) {
+    return NextResponse.json({ error: 'Failed to create news' }, { status: 500 });
+  }
 }
 
