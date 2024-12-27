@@ -18,7 +18,7 @@ export async function POST(request: Request) {
     const data = await request.json();
     const favorite = await Favorite.create(data);
     return NextResponse.json(favorite);
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: 'Failed to create favorite' }, { status: 500 });
   }
 }

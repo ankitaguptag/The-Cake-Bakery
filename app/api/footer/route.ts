@@ -7,7 +7,7 @@ export async function GET() {
     await clientPromise;
     const footer = await Footer.findOne({});
     return NextResponse.json(footer);
-  } catch (error) {
+  } catch  {
     return NextResponse.json({ error: 'Failed to fetch footer data' }, { status: 500 });
   }
 }
@@ -18,7 +18,7 @@ export async function POST(request: Request) {
     const data = await request.json();
     const footer = await Footer.create(data);
     return NextResponse.json(footer);
-  } catch (error) {
+  } catch  {
     return NextResponse.json({ error: 'Failed to create footer data' }, { status: 500 });
   }
 }
