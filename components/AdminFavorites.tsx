@@ -13,6 +13,7 @@ import {
   CardContent,
 } from "@/components/ui/card"
 import { Switch } from "@/components/ui/switch"
+import Loader from '@/app/components/Loader'
 
 interface Favorite {
   _id?: string
@@ -104,7 +105,7 @@ export default function AdminFavorites() {
   }
 
   if (isLoading) {
-    return <div>Loading...</div>
+    return <div><Loader/></div>
   }
 
   return (
