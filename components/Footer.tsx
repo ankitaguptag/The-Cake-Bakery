@@ -1,4 +1,5 @@
 "use client"
+import Loader from '@/app/components/Loader'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 
@@ -31,7 +32,7 @@ export default function Footer() {
   }, [])
 
   if (!footerData) {
-    return <div>Loading...</div>
+    return <div><Loader/></div>
   }
 
   return (
@@ -45,7 +46,7 @@ export default function Footer() {
           <div className="w-full md:w-1/3 mb-6 md:mb-0">
             <h3 className="text-xl font-semibold mb-4">Quick Links</h3>
             <ul className="space-y-2">
-              {['Home', 'News', 'About', 'Favorites', 'Location'].map((item) => (
+              {['Home', 'News', 'About', 'Favorites','All Cakes', 'Location'].map((item) => (
                 <li key={item}>
                   <Link href={`#${item.toLowerCase()}`} className="hover:text-[#FFF5E4] transition duration-300">
                     {item}

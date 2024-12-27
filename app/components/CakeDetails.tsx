@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { GrSquare } from "react-icons/gr";
+import Loader from "./Loader";
 
 interface Cake {
   id: string;
@@ -32,7 +33,7 @@ export default function CakeDetails({ id }: { id: string }) {
   };
 
   if (!cake) {
-    return <div>Loading...</div>;
+    return <div> <Loader /></div>;
   }
 
   return (
@@ -54,7 +55,7 @@ export default function CakeDetails({ id }: { id: string }) {
             <span className="text-[10px]">EGGLESS</span>
           </div>
           <p className="text-gray-600 mb-4">{cake.description}</p>
-          <p className="text-2xl font-bold mb-4">${cake.price}</p>
+          <p className="text-2xl font-bold mb-4">₹ {cake.price}</p>
           {/* <p className="text-2xl font-bold mb-4">${cake.price.toFixed(2)}</p> */}
           <p className="text-sm text-gray-500 mb-4">
             Category: {cake.category}

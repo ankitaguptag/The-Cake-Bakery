@@ -28,6 +28,11 @@ interface Cake {
   image: string;
   category: string;
 }
+interface Category {
+  _id: string;
+  name: string;
+}
+
 
 export default function AllCakes() {
   const [cakes, setCakes] = useState<Cake[]>([]);
@@ -35,14 +40,18 @@ export default function AllCakes() {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("");
+  const [categories, setCategories] = useState<Category[]>([])
+
   const cakesPerPage = 9;
 
   useEffect(() => {
     fetchCakes();
+    fetchCategories();
   }, []);
 
   useEffect(() => {
     filterCakes();
+   
   }, [cakes, searchTerm, categoryFilter]);
 
   const fetchCakes = async () => {
@@ -55,7 +64,15 @@ export default function AllCakes() {
       console.error("Error fetching cakes:", error);
     }
   };
-
+  const fetchCategories = async () => {
+    try {
+      const response = await fetch('/api/categories')
+      const data = await response.json()
+      setCategories(data)
+    } catch (error) {
+      console.error('Error fetching categories:', error)
+    }
+  }
   const filterCakes = () => {
     let filtered = cakes;
     if (searchTerm) {
@@ -66,7 +83,7 @@ export default function AllCakes() {
       );
     }
     if (categoryFilter) {
-      filtered = filtered.filter((cake) => cake.category === categoryFilter);
+      filtered = filtered.filter((cake) => cake.category.toLowerCase() === categoryFilter.toLowerCase());
     }
     setFilteredCakes(filtered);
     setCurrentPage(1);
@@ -89,15 +106,14 @@ export default function AllCakes() {
           onChange={(e) => setSearchTerm(e.target.value)}
           className="mb-4 md:mb-0 md:mr-4 md:w-1/3"
         />
-        <Select onValueChange={(value) => setCategoryFilter(value)}>
+          <Select onValueChange={(value) => setCategoryFilter(value)}>
           <SelectTrigger className="w-full md:w-1/3">
-            <SelectValue placeholder="Filter by category" />
+            <SelectValue placeholder="Select category" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">All Categories</SelectItem>
-            <SelectItem value="birthday">Birthday</SelectItem>
-            <SelectItem value="wedding">Wedding</SelectItem>
-            <SelectItem value="custom">Custom</SelectItem>
+            {categories.map((category) => (
+              <SelectItem key={category._id} value={category.name}>{category.name}</SelectItem>
+            ))}
           </SelectContent>
         </Select>
       </div>
@@ -124,7 +140,7 @@ export default function AllCakes() {
               <p className="text-sm text-gray-600 mb-2">
                 {cake.description.substring(0, 100)}...
               </p>
-              <p className="font-bold">${cake.price.toFixed(2)}</p>
+              <p className="font-bold">₹ {cake.price.toFixed(2)}</p>
             </CardContent>
             <CardFooter>
               <Link href={`/cakes/${cake._id}`}>
@@ -141,7 +157,7 @@ export default function AllCakes() {
             <Button
               key={i}
               onClick={() => paginate(i + 1)}
-              variant={currentPage === i + 1 ? "default" : "outline"}
+              variant={currentPage === i + 1 ? "outline" :"default"  }
               className="mx-1"
             >
               {i + 1}

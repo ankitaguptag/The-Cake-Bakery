@@ -15,6 +15,10 @@ interface Cake {
   image: string
   category: string
 }
+interface Category {
+  _id: string;
+  name: string;
+}
 
 export default function AdminCakes() {
   const [cakes, setCakes] = useState<Cake[]>([])
@@ -25,11 +29,21 @@ export default function AdminCakes() {
     image: '',
     category: '',
   })
+  const [categories, setCategories] = useState<Category[]>([])
 
   useEffect(() => {
     fetchCakes()
+    fetchCategories()
   }, [])
-
+  const fetchCategories = async () => {
+    try {
+      const response = await fetch('/api/categories')
+      const data = await response.json()
+      setCategories(data)
+    } catch (error) {
+      console.error('Error fetching categories:', error)
+    }
+  }
   const fetchCakes = async () => {
     try {
       const response = await fetch('/api/cakes')
@@ -119,14 +133,14 @@ export default function AdminCakes() {
           placeholder="Image URL"
           required
         />
-        <Select onValueChange={handleCategoryChange} value={newCake.category}>
+       <Select onValueChange={handleCategoryChange} value={newCake.category}>
           <SelectTrigger>
             <SelectValue placeholder="Select category" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="birthday">Birthday</SelectItem>
-            <SelectItem value="wedding">Wedding</SelectItem>
-            <SelectItem value="custom">Custom</SelectItem>
+            {categories.map((category) => (
+              <SelectItem key={category._id} value={category.name}>{category.name}</SelectItem>
+            ))}
           </SelectContent>
         </Select>
         <Button type="submit">Add Cake</Button>
