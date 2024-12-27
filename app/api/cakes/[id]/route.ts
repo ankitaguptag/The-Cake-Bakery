@@ -10,7 +10,7 @@ export async function GET(request: Request, { params }: { params: { id: string }
       return NextResponse.json({ error: 'Cake not found' }, { status: 404 });
     }
     return NextResponse.json(cake);
-  } catch (error) {
+  } catch  {
     return NextResponse.json({ error: 'Failed to fetch cake' }, { status: 500 });
   }
 }
@@ -24,7 +24,7 @@ export async function PUT(request: Request, { params }: { params: { id: string }
       return NextResponse.json({ error: 'Cake not found' }, { status: 404 });
     }
     return NextResponse.json(cake);
-  } catch (error) {
+  } catch  {
     return NextResponse.json({ error: 'Failed to update cake' }, { status: 500 });
   }
 }
@@ -37,7 +37,7 @@ export async function DELETE(request: Request, { params }: { params: { id: strin
       return NextResponse.json({ error: 'Cake not found' }, { status: 404 });
     }
     return NextResponse.json({ message: 'Cake deleted successfully' });
-  } catch (error) {
+  } catch  {
     return NextResponse.json({ error: 'Failed to delete cake' }, { status: 500 });
   }
 }

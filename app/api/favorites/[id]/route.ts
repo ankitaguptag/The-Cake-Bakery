@@ -8,7 +8,7 @@ export async function DELETE(request: Request, { params }: { params: { id: strin
     const { id } = params;
     await Favorite.findByIdAndDelete(id);
     return NextResponse.json({ message: 'Favorite deleted successfully' });
-  } catch (error) {
+  } catch  {
     return NextResponse.json({ error: 'Failed to delete favorite' }, { status: 500 });
   }
 }

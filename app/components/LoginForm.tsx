@@ -23,7 +23,7 @@ export default function LoginForm() {
       redirect: false,
     });
   
-    console.log('SignIn Result:', result); // Log the response
+    //console.log('SignIn Result:', result); // Log the response
   
     if (result?.error) {
       setError('Invalid username or password');

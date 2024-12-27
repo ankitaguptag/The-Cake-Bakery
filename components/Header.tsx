@@ -12,7 +12,7 @@ export default function Header() {
         <div className="flex items-center justify-between">
           <div className="flex items-center text-[#FF9494]">
           {/* <RiCake3Fill className="mr-1 text-4xl " /> Cake icon */}
-            <Image src="/logo.png" alt="Cake-Bakery Shop Logo" width={50} height={50} className="rounded-full" />
+            <Image src="https://res.cloudinary.com/dzabikj6s/image/upload/v1735310817/The-cake-shop/Logo_p9gapg.png" alt="Cake-Bakery Shop Logo" width={50} height={50} className="rounded-full" />
             {/* <span className="ml-3 text-2xl font-semibold">The Cake Shop</span> */}
             <a href="/" className="flex items-center text-3xl font-bold">
                        

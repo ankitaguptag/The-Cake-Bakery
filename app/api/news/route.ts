@@ -7,7 +7,7 @@ export async function GET() {
     await clientPromise;
     const news = await News.find({}).sort({ date: -1 });
     return NextResponse.json(news);
-  } catch (error) {
+  } catch  {
     return NextResponse.json({ error: 'Failed to fetch news' }, { status: 500 });
   }
 }
@@ -18,7 +18,7 @@ export async function POST(request: Request) {
     const data = await request.json();
     const newsItem = await News.create(data);
     return NextResponse.json(newsItem);
-  } catch (error) {
+  } catch  {
     return NextResponse.json({ error: 'Failed to create news' }, { status: 500 });
   }
 }
