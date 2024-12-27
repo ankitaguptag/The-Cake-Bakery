@@ -2,12 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
+/* :root {
   --primary: #FF9494;
   --secondary: #FFD1D1;
   --accent: #FFF5E4;
   --text: #4A4A4A;
-}
+} */
 
 body {
   color: var(--text);

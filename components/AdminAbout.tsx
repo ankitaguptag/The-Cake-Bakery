@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
+import Loader from '@/app/components/Loader'
 
 interface AboutData {
   title: string
@@ -89,7 +90,7 @@ export default function AdminAbout() {
   }
 
   if (isLoading) {
-    return <div>Loading...</div>
+    return <div><Loader/></div>
   }
 
   return (

@@ -1,6 +1,7 @@
 "use client"
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
+import Loader from './Loader'
 
 interface HomeData {
   heroTitle: string
@@ -27,7 +28,7 @@ export default function Home() {
   }, [])
 
   if (!homeData) {
-    return <div>Loading...</div>
+    return <div> <Loader /></div>
   }
 
   return (
