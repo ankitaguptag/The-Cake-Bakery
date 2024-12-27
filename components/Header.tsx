@@ -50,6 +50,9 @@ export default function Header() {
                 {item}
               </Link>
             ))}
+               <Link  href="/cakes" className="block py-2 text-[#4A4A4A] hover:text-[#FF9494] transition duration-300">
+                All Cakes
+              </Link>
           </div>
         )}
       </nav>
