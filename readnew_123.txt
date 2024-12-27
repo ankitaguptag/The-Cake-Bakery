@@ -79,3 +79,11 @@ To complete the setup, make sure to add the necessary images to the `public/` di
 4. Cake images for the favorites section (e.g., `cakes/chocolate-delight.jpg`, `cakes/strawberry-bliss.jpg`, `cakes/lemon-zest.jpg`)
 
 With these components and instructions in place, you now have a fully functional Next.js application for a Cake-Bakery Shop that meets all the requirements specified in the prompt. The application is responsive, uses modern styling with Tailwind CSS, and is ready for deployment on platforms like Vercel or Netlify.
+
+
+MONGODB_URI=mongodb://localhost:27017/TheCakeshop
+NODE_ENV=development
+NEXTAUTH_SECRET=F4A87531D74F3DCE143143127B04F463
+ADMIN_USERNAME=avi@gmail.com
+ADMIN_PASSWORD=123
+NEXTAUTH_URL=http://localhost:3000

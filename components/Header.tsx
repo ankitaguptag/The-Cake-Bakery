@@ -1,9 +1,9 @@
-'use client'
+"use client"; // Mark this as a Client Component
+
 
 import { useState } from 'react'
 import Link from 'next/link'
-//import Image from 'next/image'
-import { RiCake3Fill } from "react-icons/ri";
+import Image from 'next/image'
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false)
   return (
@@ -12,10 +12,10 @@ export default function Header() {
         <div className="flex items-center justify-between">
           <div className="flex items-center text-[#FF9494]">
           {/* <RiCake3Fill className="mr-1 text-4xl " /> Cake icon */}
-            {/* <Image src="/logo.png" alt="Cake-Bakery Shop Logo" width={50} height={50} className="rounded-full" /> */}
+            <Image src="/logo.png" alt="Cake-Bakery Shop Logo" width={50} height={50} className="rounded-full" />
             {/* <span className="ml-3 text-2xl font-semibold">The Cake Shop</span> */}
-            <a href="#" className="flex items-center text-3xl font-bold">
-                        <RiCake3Fill className="mr-2 text-4xl" /> {/* Cake icon */}
+            <a href="/" className="flex items-center text-3xl font-bold">
+                       
                         The Cake Shop
                     </a>
           </div>
@@ -25,6 +25,9 @@ export default function Header() {
                 {item}
               </Link>
             ))}
+            <Link  href="/cakes" className="text-[#4A4A4A] hover:text-[#FF9494] transition duration-300">
+                All Cakes
+              </Link>
           </div>
           <div className="md:hidden">
             <button onClick={() => setIsOpen(!isOpen)} className="text-[#FF9494]">
