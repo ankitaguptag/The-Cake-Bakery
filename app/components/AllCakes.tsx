@@ -20,6 +20,7 @@ import {
 import Link from "next/link";
 import Image from "next/image";
 import { GrSquare } from "react-icons/gr";
+import Loader from "./Loader";
 interface Cake {
   _id: string;
   name: string;
@@ -41,7 +42,7 @@ export default function AllCakes() {
   const [searchTerm, setSearchTerm] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("");
   const [categories, setCategories] = useState<Category[]>([])
-
+  const [loading, setLoading] = useState(true);
   const cakesPerPage = 9;
 
   useEffect(() => {
@@ -59,9 +60,10 @@ export default function AllCakes() {
       const response = await fetch("/api/cakes");
       const data = await response.json();
       setCakes(data);
-      console.log("cakes", cakes);
+      setLoading(false);
     } catch (error) {
       console.error("Error fetching cakes:", error);
+      setLoading(false);
     }
   };
   const fetchCategories = async () => {
@@ -94,7 +96,9 @@ export default function AllCakes() {
   const currentCakes = filteredCakes.slice(indexOfFirstCake, indexOfLastCake);
 
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
-
+  if (loading) {
+    return <div><Loader/></div>
+  }
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-6">All Cakes</h1>
