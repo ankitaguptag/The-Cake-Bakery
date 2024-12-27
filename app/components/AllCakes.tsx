@@ -60,10 +60,11 @@ export default function AllCakes() {
       const response = await fetch("/api/cakes");
       const data = await response.json();
       setCakes(data);
+      if(data && data.length>0)
       setLoading(false);
     } catch (error) {
       console.error("Error fetching cakes:", error);
-      setLoading(false);
+      //setLoading(false);
     }
   };
   const fetchCategories = async () => {

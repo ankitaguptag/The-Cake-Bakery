@@ -1,6 +1,7 @@
 "use client"
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
+import Loader from './Loader'
 
 interface AboutData {
   title: string
@@ -27,7 +28,7 @@ export default function About() {
   }, [])
 
   if (!aboutData) {
-    return <div>Loading...</div>
+    return <div><Loader/></div>
   }
 
   return (
