@@ -43,32 +43,48 @@ export default function CakeDetails({ id }: { id: string }) {
     return <div><Loader /></div>;
   }
 
+  const zoomSquareSize = 100; // Size of the zoom square
+  const imageWidth = 500; // Width of the image
+  const imageHeight = 400; // Height of the image
+
   return (
     <div className="container mx-auto px-4 py-8">
-      <div className="bg-white  rounded-lg overflow-hidden md:flex md:items-center">
+      <div className="bg-white rounded-lg overflow-hidden md:flex md:items-center">
         <div className="md:w-1/2 relative">
           <Image
             src={cake.image}
             alt={cake.name}
-            width={500}
-            height={400}
+            width={imageWidth}
+            height={imageHeight}
             className="w-full h-auto object-cover transition-transform duration-300"
             onMouseEnter={() => setIsZoomed(true)}
             onMouseLeave={() => setIsZoomed(false)}
             onMouseMove={handleMouseMove}
           />
           {isZoomed && (
-            <div
-              className="absolute top-0 left-full ml-4 w-64 h-64 border border-gray-300 rounded-lg overflow-hidden shadow-lg bg-white z-10"
-              style={{
-                width: '250px', // Adjust width as needed
-                height: '200px', // Adjust height as needed
-                background: `url(${cake.image})`,
-                backgroundSize: '250%', // Adjust zoom level
-                backgroundPosition: `-${(mousePosition.x / 2)}px -${(mousePosition.y / 2)}px`, // Adjust based on mouse position
-                pointerEvents: 'none', // Prevent mouse events on the zoomed div
-              }}
-            />
+            <>
+              <div
+                className="absolute border border-gray-300 rounded-lg"
+                style={{
+                  width: `${zoomSquareSize}px`,
+                  height: `${zoomSquareSize}px`,
+                  left: mousePosition.x - zoomSquareSize / 2,
+                  top: mousePosition.y - zoomSquareSize / 2,
+                  pointerEvents: 'none', // Prevent mouse events on the zoomed div
+                }}
+              />
+              <div
+                className="absolute top-0 left-full ml-4 w-64 h-64 border border-gray-300 rounded-lg overflow-hidden shadow-lg bg-white z-10"
+                style={{
+                  width: '250px', // Adjust width as needed
+                  height: '200px', // Adjust height as needed
+                  background: `url(${cake.image})`,
+                  backgroundSize: '250%', // Adjust zoom level
+                  backgroundPosition: `-${(mousePosition.x / 2)}px -${(mousePosition.y / 2)}px`, // Adjust based on mouse position
+                  pointerEvents: 'none', // Prevent mouse events on the zoomed div
+                }}
+              />
+            </>
           )}
         </div>
         <div className="md:w-1/2 p-6">
