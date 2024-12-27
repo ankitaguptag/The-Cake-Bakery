@@ -25,6 +25,9 @@ export default function Header() {
                 {item}
               </Link>
             ))}
+            <Link  href="/cakes" className="text-[#4A4A4A] hover:text-[#FF9494] transition duration-300">
+                All Cakes
+              </Link>
           </div>
           <div className="md:hidden">
             <button onClick={() => setIsOpen(!isOpen)} className="text-[#FF9494]">

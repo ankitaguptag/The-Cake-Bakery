@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { signOut } from "next-auth/react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { RiCake3Fill } from "react-icons/ri";
+import Image from "next/image";
 
 const navItems = [
   { name: "Dashboard", path: "/admin" },
@@ -27,7 +27,7 @@ export default function AdminNavbar() {
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center text-[#FF9494]">
             <a href="/" className="flex items-center text-3xl font-bold">
-              <RiCake3Fill className="mr-2 text-4xl" /> {/* Cake icon */}
+             <Image src="/logo.png" alt="Cake-Bakery Shop Logo" width={50} height={50} className="rounded-full" />
               The Cake Shop
             </a>
             <Link href="/admin" className="text-2xl font-bold ">
