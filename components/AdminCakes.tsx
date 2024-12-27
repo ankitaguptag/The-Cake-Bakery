@@ -8,7 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 
 interface Cake {
-  id: string
+  _id: string
   name: string
   description: string
   price: number
@@ -18,7 +18,7 @@ interface Cake {
 
 export default function AdminCakes() {
   const [cakes, setCakes] = useState<Cake[]>([])
-  const [newCake, setNewCake] = useState<Omit<Cake, 'id'>>({
+  const [newCake, setNewCake] = useState<Omit<Cake, '_id'>>({
     name: '',
     description: '',
     price: 0,
@@ -133,7 +133,7 @@ export default function AdminCakes() {
       </form>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {cakes.map((cake) => (
-          <Card key={cake.id}>
+          <Card key={cake._id}>
             <CardHeader>
               <CardTitle>{cake.name}</CardTitle>
             </CardHeader>
@@ -144,7 +144,7 @@ export default function AdminCakes() {
               <p className="text-sm text-gray-500">Category: {cake.category}</p>
             </CardContent>
             <CardFooter>
-              <Button variant="destructive" onClick={() => handleDelete(cake.id)}>Delete</Button>
+              <Button variant="destructive" onClick={() => handleDelete(cake._id)}>Delete</Button>
             </CardFooter>
           </Card>
         ))}

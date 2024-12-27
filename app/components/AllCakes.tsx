@@ -1,68 +1,82 @@
-'use client'
+"use client";
 
-import { useState, useEffect } from 'react'
-import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import Link from 'next/link'
-import Image from 'next/image'
-
+import { useState, useEffect } from "react";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import Link from "next/link";
+import Image from "next/image";
+import { GrSquare } from "react-icons/gr";
 interface Cake {
-  id: string
-  name: string
-  description: string
-  price: number
-  image: string
-  category: string
+  _id: string;
+  name: string;
+  description: string;
+  price: number;
+  image: string;
+  category: string;
 }
 
 export default function AllCakes() {
-  const [cakes, setCakes] = useState<Cake[]>([])
-  const [filteredCakes, setFilteredCakes] = useState<Cake[]>([])
-  const [currentPage, setCurrentPage] = useState(1)
-  const [searchTerm, setSearchTerm] = useState('')
-  const [categoryFilter, setCategoryFilter] = useState('')
-  const cakesPerPage = 9
+  const [cakes, setCakes] = useState<Cake[]>([]);
+  const [filteredCakes, setFilteredCakes] = useState<Cake[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [categoryFilter, setCategoryFilter] = useState("");
+  const cakesPerPage = 9;
 
   useEffect(() => {
-    fetchCakes()
-  }, [])
+    fetchCakes();
+  }, []);
 
   useEffect(() => {
-    filterCakes()
-  }, [cakes, searchTerm, categoryFilter])
+    filterCakes();
+  }, [cakes, searchTerm, categoryFilter]);
 
   const fetchCakes = async () => {
     try {
-      const response = await fetch('/api/cakes')
-      const data = await response.json()
-      setCakes(data)
+      const response = await fetch("/api/cakes");
+      const data = await response.json();
+      setCakes(data);
+      console.log("cakes", cakes);
     } catch (error) {
-      console.error('Error fetching cakes:', error)
+      console.error("Error fetching cakes:", error);
     }
-  }
+  };
 
   const filterCakes = () => {
-    let filtered = cakes
+    let filtered = cakes;
     if (searchTerm) {
-      filtered = filtered.filter(cake => 
-        cake.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        cake.description.toLowerCase().includes(searchTerm.toLowerCase())
-      )
+      filtered = filtered.filter(
+        (cake) =>
+          cake.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          cake.description.toLowerCase().includes(searchTerm.toLowerCase())
+      );
     }
     if (categoryFilter) {
-      filtered = filtered.filter(cake => cake.category === categoryFilter)
+      filtered = filtered.filter((cake) => cake.category === categoryFilter);
     }
-    setFilteredCakes(filtered)
-    setCurrentPage(1)
-  }
+    setFilteredCakes(filtered);
+    setCurrentPage(1);
+  };
 
-  const indexOfLastCake = currentPage * cakesPerPage
-  const indexOfFirstCake = indexOfLastCake - cakesPerPage
-  const currentCakes = filteredCakes.slice(indexOfFirstCake, indexOfLastCake)
+  const indexOfLastCake = currentPage * cakesPerPage;
+  const indexOfFirstCake = indexOfLastCake - cakesPerPage;
+  const currentCakes = filteredCakes.slice(indexOfFirstCake, indexOfLastCake);
 
-  const paginate = (pageNumber: number) => setCurrentPage(pageNumber)
+  const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -89,17 +103,31 @@ export default function AllCakes() {
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {currentCakes.map((cake) => (
-          <Card key={cake.id}>
+          <Card key={cake._id}>
             <CardHeader>
-              <CardTitle>{cake.name}</CardTitle>
+              <CardTitle>
+                {cake.name}
+                <div className="text-green-600">
+                  <GrSquare />
+                  <span className="text-[10px]">EGGLESS</span>
+                </div>
+              </CardTitle>
             </CardHeader>
             <CardContent>
-              <Image src={cake.image} alt={cake.name} width={300} height={200} className="w-full h-48 object-cover mb-4" />
-              <p className="text-sm text-gray-600 mb-2">{cake.description.substring(0, 100)}...</p>
+              <Image
+                src={cake.image}
+                alt={cake.name}
+                width={300}
+                height={200}
+                className="w-full h-48 object-cover mb-4"
+              />
+              <p className="text-sm text-gray-600 mb-2">
+                {cake.description.substring(0, 100)}...
+              </p>
               <p className="font-bold">${cake.price.toFixed(2)}</p>
             </CardContent>
             <CardFooter>
-              <Link href={`/cakes/${cake.id}`}>
+              <Link href={`/cakes/${cake._id}`}>
                 <Button>View Details</Button>
               </Link>
             </CardFooter>
@@ -107,18 +135,20 @@ export default function AllCakes() {
         ))}
       </div>
       <div className="mt-8 flex justify-center">
-        {Array.from({ length: Math.ceil(filteredCakes.length / cakesPerPage) }, (_, i) => (
-          <Button
-            key={i}
-            onClick={() => paginate(i + 1)}
-            variant={currentPage === i + 1 ? "default" : "outline"}
-            className="mx-1"
-          >
-            {i + 1}
-          </Button>
-        ))}
+        {Array.from(
+          { length: Math.ceil(filteredCakes.length / cakesPerPage) },
+          (_, i) => (
+            <Button
+              key={i}
+              onClick={() => paginate(i + 1)}
+              variant={currentPage === i + 1 ? "default" : "outline"}
+              className="mx-1"
+            >
+              {i + 1}
+            </Button>
+          )
+        )}
       </div>
     </div>
-  )
+  );
 }
-

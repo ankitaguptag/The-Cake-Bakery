@@ -3,7 +3,7 @@ import AllCakes from '../components/AllCakes'
 
 
 export const metadata: Metadata = {
-  title: 'All Cakes | Cake-Bakery Shop',
+  title: 'All Cakes | The Cake Shop',
   description: 'Browse our delicious selection of cakes',
 }
 
