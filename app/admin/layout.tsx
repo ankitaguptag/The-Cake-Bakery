@@ -1,6 +1,5 @@
 import AdminNavbar from '../../components/AdminNavbar';
 import { getServerSession } from 'next-auth';
-import { authConfig } from '@/auth.config';
 import { redirect } from 'next/navigation';
 
 export default async function AdminLayout({
@@ -8,7 +7,7 @@ export default async function AdminLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const session = await getServerSession(authConfig);
+  const session = await getServerSession();
   console.log('Provided credentials:', session);
   if (!session) {
     redirect('/login'); // Redirect to login if no session

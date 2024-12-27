@@ -35,8 +35,8 @@ export default function AdminNavbar() {
           <div className="flex items-center text-[#FF9494]">
             <a href="/" className="flex items-center text-3xl font-bold">
               <Image
-                src="/logo.png"
-                alt="Cake-Bakery Shop Logo"
+                src="https://res.cloudinary.com/dzabikj6s/image/upload/v1735310817/The-cake-shop/Logo_p9gapg.png"
+                alt="The-Cake-Shop"
                 width={50}
                 height={50}
                 className="rounded-full"

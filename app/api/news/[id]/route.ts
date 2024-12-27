@@ -8,7 +8,7 @@ export async function DELETE(request: Request, { params }: { params: { id: strin
     const { id } = params;
     await News.findByIdAndDelete(id);
     return NextResponse.json({ message: 'News item deleted successfully' });
-  } catch (error) {
+  } catch  {
     return NextResponse.json({ error: 'Failed to delete news item' }, { status: 500 });
   }
 }

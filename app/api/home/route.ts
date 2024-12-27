@@ -7,7 +7,7 @@ export async function GET() {
     await clientPromise;
     const home = await Home.findOne({});
     return NextResponse.json(home);
-  } catch (error) {
+  } catch  {
     return NextResponse.json({ error: 'Failed to fetch home data' }, { status: 500 });
   }
 }
@@ -18,7 +18,7 @@ export async function POST(request: Request) {
     const data = await request.json();
     const home = await Home.findOneAndUpdate({}, data, { upsert: true, new: true });
     return NextResponse.json(home);
-  } catch (error) {
+  } catch  {
     return NextResponse.json({ error: 'Failed to update home data' }, { status: 500 });
   }
 }
