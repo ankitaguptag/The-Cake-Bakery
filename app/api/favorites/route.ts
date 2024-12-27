@@ -7,7 +7,7 @@ export async function GET() {
     await clientPromise;
     const favorites = await Favorite.find({});
     return NextResponse.json(favorites);
-  } catch (error) {
+  } catch  {
     return NextResponse.json({ error: 'Failed to fetch favorites' }, { status: 500 });
   }
 }
