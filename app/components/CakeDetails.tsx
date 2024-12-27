@@ -40,7 +40,7 @@ export default function CakeDetails({ id }: { id: string }) {
   };
 
   if (!cake) {
-    return <div className="flex justify-center items-center h-screen"><Loader /></div>;
+    return <div><Loader /></div>;
   }
 
   return (
