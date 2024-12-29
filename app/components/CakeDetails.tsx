@@ -18,18 +18,14 @@ interface Cake {
 // Helper function to convert YouTube URL to embed format
 const convertToEmbedUrl = (url: string) => {
   try {
-    // Check if the URL contains "/shorts/"
     if (url.includes("/shorts/")) {
-      // Replace "/shorts/" with "/embed/" and add "?rel=0"
       return url.replace("/shorts/", "/embed/") + "?rel=0";
     }
     if (url.includes("https://youtu.be/")) {
-      // Replace "/youtu.be/" with "/youtube.com/embed/" and add "?rel=0"
       return url.replace("/youtu.be/", "/youtube.com/embed/") + "?rel=0";
     }
-    // For other YouTube formats (e.g., watch?v=), handle as needed
     const videoIdMatch = url.match(
-      /(?:v=|\/|shorts\/|youtu\.be\/|embed\/)([a-zA-Z0-9_-]+)/
+      /(?:v=|\/|shorts\/|youtu\.be\/|embed\/)([a-zA-Z0-9_-]+)/,
     );
     if (videoIdMatch) {
       return `https://www.youtube.com/embed/${videoIdMatch[1]}?rel=0`;
@@ -48,7 +44,6 @@ export default function CakeDetails({ id }: { id: string }) {
   useEffect(() => {
     const fetchCake = async () => {
       try {
-        // Simulated data for demo
         const data: Cake = {
           id: "67711bea6acade1aa061455b",
           name: "Black Velvet",
@@ -63,7 +58,6 @@ export default function CakeDetails({ id }: { id: string }) {
           ],
           category: "Fruit Cakes",
         };
-
         setCake(data);
       } catch (error) {
         console.error("Error fetching cake details:", error);
@@ -94,9 +88,9 @@ export default function CakeDetails({ id }: { id: string }) {
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="w-full py-5">
-        <div className="block w-full flex justify-between">
+        <div className="flex flex-wrap justify-between">
           {/* Image or Video Section */}
-          <div className="w-full 800px:w-[50%] p-5">
+          <div className="w-full sm:w-1/2 p-5">
             <div className="w-full h-[500px] border border-qgray-border flex justify-center items-center overflow-hidden relative mb-3">
               {cake.image[select].includes("youtube.com") ||
               cake.image[select].includes("youtu.be") ? (
@@ -109,7 +103,6 @@ export default function CakeDetails({ id }: { id: string }) {
                     frameBorder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowFullScreen
-                    //className="w-full h-full"
                   ></iframe>
                 ) : (
                   <p className="text-red-500">
@@ -131,11 +124,10 @@ export default function CakeDetails({ id }: { id: string }) {
             {/* Thumbnail Selector */}
             <div className="flex gap-2 flex-wrap">
               {cake.image.map((i, index) => {
-                // Check if the item is a YouTube URL and extract the video ID
                 const isYouTubeVideo =
                   i.includes("youtube.com") || i.includes("youtu.be");
                 const videoIdMatch = i.match(
-                  /(?:v=|\/|shorts\/|youtu\.be\/|embed\/)([a-zA-Z0-9_-]+)/
+                  /(?:v=|\/|shorts\/|youtu\.be\/|embed\/)([a-zA-Z0-9_-]+)/,
                 );
                 const videoThumbnailUrl =
                   isYouTubeVideo && videoIdMatch
@@ -164,7 +156,7 @@ export default function CakeDetails({ id }: { id: string }) {
           </div>
 
           {/* Details Section */}
-          <div className="w-full 800px:w-[50%] p-5">
+          <div className="w-full sm:w-1/2 p-5">
             <div className="md:w-1/2 p-6">
               <h1 className="text-4xl font-bold mb-2">{cake.name}</h1>
               <div className="flex items-center text-green-600 mb-4">
