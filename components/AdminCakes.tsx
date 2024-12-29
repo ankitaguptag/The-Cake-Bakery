@@ -12,8 +12,9 @@ interface Cake {
   name: string
   description: string
   price: number
-  image: string
+  image: string []
   category: string
+  video: string
 }
 interface Category {
   _id: string;
@@ -26,14 +27,16 @@ export default function AdminCakes() {
     name: '',
     description: '',
     price: 0,
-    image: '',
+    image: [],
     category: '',
+    video: '',
   })
   const [categories, setCategories] = useState<Category[]>([])
 
   useEffect(() => {
     fetchCakes()
     fetchCategories()
+    handleAddImage()
   }, [])
   const fetchCategories = async () => {
     try {
@@ -63,6 +66,33 @@ export default function AdminCakes() {
     setNewCake(prev => ({ ...prev, category: value }))
   }
 
+  const handleImageChange = (index: number, value: string) => {
+    setNewCake(prev => ({
+      ...prev,
+      image: prev.image.map((img, i) => (i === index ? value : img)),
+    }))
+  }
+  
+
+  const handleAddImage = () => {
+    setNewCake(prev => ({
+      ...prev,
+      image: [...(prev.image || []), ''], // Add an empty string for the new input field
+    }))
+  }
+  
+
+  const handleRemoveImage = (index: number): void => {
+    if (newCake.image.length > 1) {
+      const updatedImages = [...newCake.image]
+      updatedImages.splice(index, 1)
+      setNewCake({ ...newCake, image: updatedImages })
+    } else {
+      alert("At least one image is required.")
+    }
+  }
+  
+  
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     try {
@@ -77,8 +107,9 @@ export default function AdminCakes() {
           name: '',
           description: '',
           price: 0,
-          image: '',
+          image: [],
           category: '',
+          video : '',
         })
       }
     } catch (error) {
@@ -126,23 +157,52 @@ export default function AdminCakes() {
           step="0.01"
           required
         />
+       {newCake.image.map((image, index) => (
+          <div key={index} className="flex items-center space-x-2">
+            <Input
+              value={image}
+              onChange={(e) => handleImageChange(index, e.target.value)}
+              placeholder={`Image URL ${index + 1}`}
+              required
+            />
+            {/* Hide the "Remove" button for the first input field */}
+            {index > 0 && (
+              <Button
+                type="button"
+                variant="destructive"
+                onClick={() => handleRemoveImage(index)}
+              >
+                Remove
+              </Button>
+            )}
+          </div>
+        ))}
+        <Button type="button" onClick={handleAddImage}>
+          Add Image
+        </Button>
         <Input
-          name="image"
-          value={newCake.image}
-          onChange={handleInputChange}
-          placeholder="Image URL"
-          required
+            name="video"
+            value={newCake.video}
+            onChange={handleInputChange}
+            placeholder="Video URL"
         />
        <Select onValueChange={handleCategoryChange} value={newCake.category}>
-          <SelectTrigger>
-            <SelectValue placeholder="Select category" />
-          </SelectTrigger>
-          <SelectContent>
-            {categories.map((category) => (
-              <SelectItem key={category._id} value={category.name}>{category.name}</SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+  <SelectTrigger className="text-black rounded-md shadow-sm focus:ring-2">
+    <SelectValue placeholder="Select category" />
+  </SelectTrigger>
+  <SelectContent className="bg-white border border-gray-300 rounded-md shadow-lg z-10">
+    {categories.map((category) => (
+      <SelectItem
+        key={category._id}
+        value={category.name}
+        className="px-4 py-2 hover:bg-blue-100 hover:text-blue-600 cursor-pointer"
+      >
+        {category.name}
+      </SelectItem>
+    ))}
+  </SelectContent>
+</Select>
+
         <Button type="submit">Add Cake</Button>
       </form>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -152,7 +212,7 @@ export default function AdminCakes() {
               <CardTitle>{cake.name}</CardTitle>
             </CardHeader>
             <CardContent>
-              <img src={cake.image} alt={cake.name} className="w-full h-48 object-cover mb-4" />
+              <img src={cake.image[0]} alt={cake.name} className="w-full h-48 object-cover mb-4" />
               <p className="text-sm text-gray-600 mb-2">{cake.description.substring(0, 100)}...</p>
               <p className="font-bold">${cake.price.toFixed(2)}</p>
               <p className="text-sm text-gray-500">Category: {cake.category}</p>

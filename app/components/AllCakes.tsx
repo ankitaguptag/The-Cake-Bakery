@@ -26,8 +26,9 @@ interface Cake {
   name: string;
   description: string;
   price: number;
-  image: string;
+  image: string[];
   category: string;
+  video?: string;
 }
 interface Category {
   _id: string;
@@ -135,17 +136,38 @@ export default function AllCakes() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <Image
-                src={cake.image}
-                alt={cake.name}
-                width={300}
-                height={200}
-                className="w-full h-48 object-cover mb-4"
-              />
+            <div className="relative">
+                {cake.image.length > 0 ? (
+                  cake.image.map((img, index) => (
+                    <Image
+                      key={index}
+                      src={img}
+                      alt={`${cake.name} image ${index + 1}`}
+                      width={300}
+                      height={200}
+                      className={`w-full h-48 object-cover mb-4 ${
+                        index > 0 ? "hidden" : "block"
+                      }`}
+                    />
+                  ))
+                ) : (
+                  <p className="text-sm text-gray-500">No image available</p>
+                )}
+              </div>
               <p className="text-sm text-gray-600 mb-2">
                 {cake.description.substring(0, 100)}...
               </p>
               <p className="font-bold">₹ {cake.price.toFixed(2)}</p>
+              {cake.video && (
+                <a
+                  href={cake.video}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-500 underline mt-2 block"
+                >
+                  Watch Video
+                </a>
+              )}
             </CardContent>
             <CardFooter>
               <Link href={`/cakes/${cake._id}`}>
