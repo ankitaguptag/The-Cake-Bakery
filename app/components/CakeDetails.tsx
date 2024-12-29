@@ -44,22 +44,22 @@ export default function CakeDetails({ id }: { id: string }) {
   useEffect(() => {
     const fetchCake = async () => {
       try {
-        // const response = await fetch(`/api/cakes/${id}`);
-        // const data = await response.json();
-        const data: Cake = {
-          id: "67711bea6acade1aa061455b",
-          name: "Black Velvet",
-          description: "A delicious black velvet cake.",
-          price: 57,
-          image: [
-            "https://res.cloudinary.com/dzabikj6s/image/upload/v1735227106/The-cake-shop/9288b9fa-1cf1-40cb-ae92-0b392238483d_ofgb37.jpg",
-            "https://res.cloudinary.com/dzabikj6s/image/upload/v1735228115/The-cake-shop/d1d2924e-2abf-440e-be3e-bf49099ff68f_itcncr.jpg",
-            "https://res.cloudinary.com/dzabikj6s/image/upload/v1735228696/The-cake-shop/78f2b9f6-4287-4a77-82fe-62edaa3f6fde_htwnjt.jpg",
-            "https://youtube.com/shorts/FtnOaJTOuqc?si=YaJWT3A0tWNn113N",
-            "https://youtu.be/CWdsqvg0wCw?si=AHUrMIAfCiDCDNL2",
-          ],
-          category: "Fruit Cakes",
-        };
+        const response = await fetch(`/api/cakes/${id}`);
+        const data = await response.json();
+        // const data: Cake = {
+        //   id: "67711bea6acade1aa061455b",
+        //   name: "Black Velvet",
+        //   description: "A delicious black velvet cake.",
+        //   price: 57,
+        //   image: [
+        //     "https://res.cloudinary.com/dzabikj6s/image/upload/v1735227106/The-cake-shop/9288b9fa-1cf1-40cb-ae92-0b392238483d_ofgb37.jpg",
+        //     "https://res.cloudinary.com/dzabikj6s/image/upload/v1735228115/The-cake-shop/d1d2924e-2abf-440e-be3e-bf49099ff68f_itcncr.jpg",
+        //     "https://res.cloudinary.com/dzabikj6s/image/upload/v1735228696/The-cake-shop/78f2b9f6-4287-4a77-82fe-62edaa3f6fde_htwnjt.jpg",
+        //     "https://youtube.com/shorts/FtnOaJTOuqc?si=YaJWT3A0tWNn113N",
+        //     "https://youtu.be/CWdsqvg0wCw?si=AHUrMIAfCiDCDNL2",
+        //   ],
+        //   category: "Fruit Cakes",
+        // };
         setCake(data);
       } catch (error) {
         console.error("Error fetching cake details:", error);
