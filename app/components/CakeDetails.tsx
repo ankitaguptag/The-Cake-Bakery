@@ -44,6 +44,8 @@ export default function CakeDetails({ id }: { id: string }) {
   useEffect(() => {
     const fetchCake = async () => {
       try {
+        // const response = await fetch(`/api/cakes/${id}`);
+        // const data = await response.json();
         const data: Cake = {
           id: "67711bea6acade1aa061455b",
           name: "Black Velvet",
