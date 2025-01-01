@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { GrSquare } from "react-icons/gr";
 import Loader from "./Loader";
 import { FaPlayCircle } from "react-icons/fa"; // Example video icon from React Icons
+import Image from "next/image";
 
 interface Cake {
   id: string;
@@ -35,7 +36,10 @@ const convertToEmbedUrl = (videoUrl: string): string | null => {
         const videoId = videoIdMatch[1];
 
         // Handle YouTube cases
-        if (videoUrl.toLowerCase().includes("youtube") || videoUrl.toLowerCase().includes("youtu.be")) {
+        if (
+          videoUrl.toLowerCase().includes("youtube") ||
+          videoUrl.toLowerCase().includes("youtu.be")
+        ) {
           return `https://www.youtube.com/embed/${videoId}`;
         }
       }
@@ -68,7 +72,8 @@ const getThumbnailUrl = (url: string): string | null => {
   if (!url || typeof url !== "string") return null;
 
   // Check if it's a YouTube video URL
-  const isYouTubeVideo = url.includes("youtube.com") || url.includes("youtu.be");
+  const isYouTubeVideo =
+    url.includes("youtube.com") || url.includes("youtu.be");
 
   if (isYouTubeVideo) {
     // Extract video ID for different YouTube URL patterns
@@ -86,8 +91,6 @@ const getThumbnailUrl = (url: string): string | null => {
   // If it's not a video, assume it's an image URL
   return url;
 };
-
-
 
 export default function CakeDetails({ id }: { id: string }) {
   const [cake, setCake] = useState<Cake | null>(null);
@@ -178,10 +181,10 @@ export default function CakeDetails({ id }: { id: string }) {
             {/* Thumbnail Selector */}
             <div className="flex gap-2 flex-wrap">
               {cake.image.map((i, index) => {
-                 const thumbnailUrl = getThumbnailUrl(i);
-                 const isYouTubeVideo =
-                 i.includes("youtube.com") || i.includes("youtu.be");
-                 return (
+                const thumbnailUrl = getThumbnailUrl(i);
+                const isYouTubeVideo =
+                  i.includes("youtube.com") || i.includes("youtu.be");
+                return (
                   <div
                     key={index}
                     className={`relative ${
@@ -189,9 +192,11 @@ export default function CakeDetails({ id }: { id: string }) {
                     } w-[110px] h-[110px] p-[15px] border border-qgray-border cursor-pointer`}
                     onClick={() => setSelect(index)}
                   >
-                    <img
-                      src={thumbnailUrl}
+                    <Image
+                      src={thumbnailUrl || "/default-image.jpg"} // fallback to a default image if null or undefined
                       alt={`Cake ${index}`}
+                      width={110}
+                      height={110}
                       className={`w-full h-full object-contain ${
                         select === index ? "" : "opacity-50"
                       }`}
