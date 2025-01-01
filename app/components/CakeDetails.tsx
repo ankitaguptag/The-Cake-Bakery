@@ -17,27 +17,39 @@ interface Cake {
 }
 
 // Helper function to convert YouTube URL to embed format
-const convertToEmbedUrl = (videoUrl: string) => {
+const convertToEmbedUrl = (videoUrl: string): string | null => {
   try {
     if (!videoUrl || typeof videoUrl !== "string") return null;
 
     // Trim whitespace from the URL
     videoUrl = videoUrl.trim();
-  
-    // If the URL starts with "http"
+
+    // Check if the URL starts with "http"
     if (videoUrl.toLowerCase().includes("http")) {
-      const code = videoUrl.substring(videoUrl.lastIndexOf("/") + 1);
-  
-      // Handle YouTube and Vimeo cases
-      if (videoUrl.toLowerCase().includes("youtube")) {
-        return `https://www.youtube.com/embed/${code}`;
-      } else if (videoUrl.toLowerCase().includes("vimeo")) {
-        return `https://player.vimeo.com/video/${code}`;
-      } else if (videoUrl.toLowerCase().includes("youtu.be")) {
-        return `https://www.youtube.com/embed/${code}`;
+      // Extract video ID for different patterns (YouTube and Vimeo)
+      const videoIdMatch = videoUrl.match(
+        /(?:\?v=|&v=|\/v\/|\/embed\/|youtu\.be\/|\/shorts\/|\/)([a-zA-Z0-9_-]{11})/
+      );
+
+      if (videoIdMatch && videoIdMatch[1]) {
+        const videoId = videoIdMatch[1];
+
+        // Handle YouTube cases
+        if (videoUrl.toLowerCase().includes("youtube") || videoUrl.toLowerCase().includes("youtu.be")) {
+          return `https://www.youtube.com/embed/${videoId}`;
+        }
+      }
+
+      // Handle Vimeo cases
+      if (videoUrl.toLowerCase().includes("vimeo")) {
+        const vimeoIdMatch = videoUrl.match(/(?:vimeo\.com\/)([0-9]+)/);
+        if (vimeoIdMatch && vimeoIdMatch[1]) {
+          const vimeoId = vimeoIdMatch[1];
+          return `https://player.vimeo.com/video/${vimeoId}`;
+        }
       }
     } else {
-      // If the URL contains alphabetic characters (assume it's a YouTube video)
+      // Assume input is a direct video ID or some invalid format
       const alphaRegex = /[a-zA-Z]/;
       if (alphaRegex.test(videoUrl)) {
         return `https://www.youtube.com/embed/${videoUrl}`;
@@ -45,12 +57,12 @@ const convertToEmbedUrl = (videoUrl: string) => {
         return `https://player.vimeo.com/video/${videoUrl}`;
       }
     }
-  
-    return null;
+
+    return null; // Fallback for unrecognized URLs
   } catch (error) {
-    console.error("Error processing YouTube URL:", error);
+    console.error("Error processing video URL:", error);
+    return null; // Return null in case of an error
   }
-  return null; // Return null if the URL is not valid
 };
 const getThumbnailUrl = (url: string): string | null => {
   if (!url || typeof url !== "string") return null;
@@ -59,20 +71,23 @@ const getThumbnailUrl = (url: string): string | null => {
   const isYouTubeVideo = url.includes("youtube.com") || url.includes("youtu.be");
 
   if (isYouTubeVideo) {
-    // Extract the base URL without query parameters
-    const cleanUrl = url.split("?")[0];
-    // Extract the video ID from the base URL
-    const code = cleanUrl.substring(cleanUrl.lastIndexOf("/") + 1);
+    // Extract video ID for different YouTube URL patterns
+    const videoIdMatch = url.match(
+      /(?:\?v=|&v=|\/v\/|\/embed\/|youtu\.be\/|\/shorts\/|\/)([a-zA-Z0-9_-]{11})/
+    );
 
-    if (code) {
+    if (videoIdMatch && videoIdMatch[1]) {
+      const videoId = videoIdMatch[1];
       // Return the YouTube video thumbnail URL
-      return `https://img.youtube.com/vi/${code}/0.jpg`;
+      return `https://img.youtube.com/vi/${videoId}/0.jpg`;
     }
   }
 
   // If it's not a video, assume it's an image URL
   return url;
 };
+
+
 
 export default function CakeDetails({ id }: { id: string }) {
   const [cake, setCake] = useState<Cake | null>(null);
