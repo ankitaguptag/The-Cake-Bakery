@@ -5,6 +5,7 @@ import ImageMagnifier from "@/components/common/ImageMagnifier";
 import { Button } from "@/components/ui/button";
 import { GrSquare } from "react-icons/gr";
 import Loader from "./Loader";
+import { FaPlayCircle } from "react-icons/fa"; // Example video icon from React Icons
 
 interface Cake {
   id: string;
@@ -16,24 +17,61 @@ interface Cake {
 }
 
 // Helper function to convert YouTube URL to embed format
-const convertToEmbedUrl = (url: string) => {
+const convertToEmbedUrl = (videoUrl: string) => {
   try {
-    if (url.includes("/shorts/")) {
-      return url.replace("/shorts/", "/embed/") + "?rel=0";
+    if (!videoUrl || typeof videoUrl !== "string") return null;
+
+    // Trim whitespace from the URL
+    videoUrl = videoUrl.trim();
+  
+    // If the URL starts with "http"
+    if (videoUrl.toLowerCase().includes("http")) {
+      const code = videoUrl.substring(videoUrl.lastIndexOf("/") + 1);
+  
+      // Handle YouTube and Vimeo cases
+      if (videoUrl.toLowerCase().includes("youtube")) {
+        return `https://www.youtube.com/embed/${code}`;
+      } else if (videoUrl.toLowerCase().includes("vimeo")) {
+        return `https://player.vimeo.com/video/${code}`;
+      } else if (videoUrl.toLowerCase().includes("youtu.be")) {
+        return `https://www.youtube.com/embed/${code}`;
+      }
+    } else {
+      // If the URL contains alphabetic characters (assume it's a YouTube video)
+      const alphaRegex = /[a-zA-Z]/;
+      if (alphaRegex.test(videoUrl)) {
+        return `https://www.youtube.com/embed/${videoUrl}`;
+      } else {
+        return `https://player.vimeo.com/video/${videoUrl}`;
+      }
     }
-    if (url.includes("https://youtu.be/")) {
-      return url.replace("/youtu.be/", "/youtube.com/embed/") + "?rel=0";
-    }
-    const videoIdMatch = url.match(
-      /(?:v=|\/|shorts\/|youtu\.be\/|embed\/)([a-zA-Z0-9_-]+)/,
-    );
-    if (videoIdMatch) {
-      return `https://www.youtube.com/embed/${videoIdMatch[1]}?rel=0`;
-    }
+  
+    return null;
   } catch (error) {
     console.error("Error processing YouTube URL:", error);
   }
   return null; // Return null if the URL is not valid
+};
+const getThumbnailUrl = (url: string): string | null => {
+  if (!url || typeof url !== "string") return null;
+
+  // Check if it's a YouTube video URL
+  const isYouTubeVideo = url.includes("youtube.com") || url.includes("youtu.be");
+
+  if (isYouTubeVideo) {
+    // Extract the base URL without query parameters
+    const cleanUrl = url.split("?")[0];
+    // Extract the video ID from the base URL
+    const code = cleanUrl.substring(cleanUrl.lastIndexOf("/") + 1);
+
+    if (code) {
+      // Return the YouTube video thumbnail URL
+      return `https://img.youtube.com/vi/${code}/0.jpg`;
+    }
+  }
+
+  // If it's not a video, assume it's an image URL
+  return url;
 };
 
 export default function CakeDetails({ id }: { id: string }) {
@@ -86,7 +124,6 @@ export default function CakeDetails({ id }: { id: string }) {
       </div>
     );
   }
-
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="w-full py-5">
@@ -126,31 +163,30 @@ export default function CakeDetails({ id }: { id: string }) {
             {/* Thumbnail Selector */}
             <div className="flex gap-2 flex-wrap">
               {cake.image.map((i, index) => {
-                const isYouTubeVideo =
-                  i.includes("youtube.com") || i.includes("youtu.be");
-                const videoIdMatch = i.match(
-                  /(?:v=|\/|shorts\/|youtu\.be\/|embed\/)([a-zA-Z0-9_-]+)/,
-                );
-                const videoThumbnailUrl =
-                  isYouTubeVideo && videoIdMatch
-                    ? `https://img.youtube.com/vi/${videoIdMatch[1]}/0.jpg`
-                    : i; // If it's a video, get the thumbnail; otherwise, use the image URL
-
-                return (
+                 const thumbnailUrl = getThumbnailUrl(i);
+                 const isYouTubeVideo =
+                 i.includes("youtube.com") || i.includes("youtu.be");
+                 return (
                   <div
                     key={index}
-                    className={`${
+                    className={`relative ${
                       select === index ? "border" : ""
                     } w-[110px] h-[110px] p-[15px] border border-qgray-border cursor-pointer`}
                     onClick={() => setSelect(index)}
                   >
                     <img
-                      src={videoThumbnailUrl}
+                      src={thumbnailUrl}
                       alt={`Cake ${index}`}
                       className={`w-full h-full object-contain ${
                         select === index ? "" : "opacity-50"
                       }`}
                     />
+                    {isYouTubeVideo && (
+                      <FaPlayCircle
+                        className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white opacity-75 text-3xl"
+                        aria-label="Play Video"
+                      />
+                    )}
                   </div>
                 );
               })}
